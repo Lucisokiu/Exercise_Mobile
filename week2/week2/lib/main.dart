@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:sizer/sizer.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:week2/pages/feed/screens/feed_screen.dart';
 import 'package:week2/utils/certificate_verify_failed.dart';
 
 import 'api/login_api.dart';
@@ -69,34 +71,38 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     print("build");
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: FutureBuilder<bool>(
-        future: _checkFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Đang chờ kết quả từ Future
-            return Container(
-              width: 100, // Đặt chiều rộng mong muốn
-              height: 100, // Đặt chiều cao mong muốn
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else {
-            // Đã có kết quả từ Future
-            if (snapshot.data == true) {
-              return MyHomePage(title: "Auto Login");
-            } else {
-              return LoginScreen();
-            }
-          }
-        },
-      ),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: FutureBuilder<bool>(
+            future: _checkFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Đang chờ kết quả từ Future
+                return Container(
+                  width: 100, // Đặt chiều rộng mong muốn
+                  height: 100, // Đặt chiều cao mong muốn
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else {
+                // Đã có kết quả từ Future
+                if (snapshot.data == true) {
+                  return FeedPage();
+                } else {
+                  return LoginScreen();
+                }
+              }
+            },
+          ),
+        );
+      },
     );
   }
 }

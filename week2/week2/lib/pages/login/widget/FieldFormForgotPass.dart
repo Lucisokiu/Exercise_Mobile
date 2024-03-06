@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:rive/rive.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:week2/main.dart';
+import 'package:week2/pages/feed/screens/feed_screen.dart';
 
 import '../../../api/login_api.dart';
 
@@ -66,7 +67,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                     .then(
                         (value) =>
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                          builder: (context) => const MyHomePage(title: "week4"),
+                          builder: (context) => FeedPage(),
                         ),
                                 (route) => false));
                 }

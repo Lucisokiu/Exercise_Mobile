@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:rive/rive.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:week2/main.dart';
+import 'package:week2/pages/feed/screens/feed_screen.dart';
 
 import '../../../api/login_api.dart';
 import '../../../model/login.dart';
@@ -104,7 +105,7 @@ class _SignInFormState extends State<SignInForm> {
                 localStorage(userName, password);
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                      builder: (context) => const MyHomePage(title: "week4")),
+                      builder: (context) => const FeedPage()),
                   (Route<dynamic> route) => false,
                 );
               });

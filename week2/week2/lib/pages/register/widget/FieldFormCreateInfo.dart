@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:rive/rive.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:week2/main.dart';
+import 'package:week2/pages/feed/screens/feed_screen.dart';
 
 import '../../../api/userInfo.dart';
 
@@ -72,7 +73,7 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
               });
               Future.delayed(const Duration(seconds: 2), () {
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const MyHomePage(title: "week4")),
+                  MaterialPageRoute(builder: (context) => const FeedPage()),
                       (Route<dynamic> route) => false,
                 );
               });

@@ -3,12 +3,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:path/path.dart';
 import 'package:rive/rive.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../api/login_api.dart';
 import '../../../api/user.dart';
 import '../CustomVerifyAccount.dart';
+import 'package:sqflite/sqflite.dart';
 
 
 class SignUpForm extends StatefulWidget {
@@ -47,6 +49,39 @@ class _SignUpFormState extends State<SignUpForm> {
     artboard.addController(controller!);
     return controller;
   }
+  
+
+  Future<void> localStorage(userName, password) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    final database = openDatabase(
+      join(await getDatabasesPath(), 'login.db'),
+      onCreate: (db, version) {
+        // Run the CREATE TABLE statement on the database.
+        return db.execute(
+          'CREATE TABLE login(id INTEGER PRIMARY KEY, userName TEXT, password TEXT)',
+        );
+      },
+      version: 1,
+    );
+    final db = await database;
+
+    Map<String, dynamic> createDataInsert(String userName, String password) {
+      return {
+        'id': 1,
+        'userName': userName,
+        'password': password,
+      };
+    }
+
+    print(createDataInsert);
+    await db.insert(
+      'login',
+      createDataInsert(userName, password),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    print("createDataInsert: ok");
+  }
+
 
   void signup(BuildContext context, String userName, String password,
       String email, String phone) {
@@ -56,6 +91,8 @@ class _SignUpFormState extends State<SignUpForm> {
       'email': email,
       'phone': phone,
     };
+    localStorage(userName, password);
+
     setState(() {
       isShowLoading = true;
       isShowConfetti = true;
